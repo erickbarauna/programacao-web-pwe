@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS</title>
+</head>
+<body>
+    <form name="form1">
+        <div>
+            <label for="text1">Primeiro nome:</label>
+            <input type="text" name="text1">
+        </div>
+        <div>
+            <label for="text2">Primeiro nome:</label>
+            <input type="text" name="text2">
+        </div>
+        <div>
+            <p>Clique para calcular:</p>
+            <input type="button" value="Calcular" onclick="Calcular()">
+        </div>
+        <script type="text/javascript">
+            //Alterando valor de uma variavel
+            function Calcular() {
+                var primeiroNum = eval (document.form1.text1.value);
+                var segundoNum = eval (document.form1.text2.value);
+                alert(primeiroNum + segundoNum); 
+            }
+        </script>
+    </form>
+</body>
+</html>
