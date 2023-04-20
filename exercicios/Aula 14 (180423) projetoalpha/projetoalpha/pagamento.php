@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagamento</title>
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="camadas.css">
 </head>
 <body>
     <?php 
@@ -16,21 +16,22 @@
         $valorPadrao = numfmt_format_currency($padraoBr, $valor, "BRL");
     ?>
     <header>
-        <h1>Tela Pagamento</h1>
+        <h1>Tela de Pagamento</h1>
     </header>
     <section>
         <form action="pagamento.php?valor=enviado" method="$_POST">
             <div>
-                <label for="iforma-pagamento">Forma de Pagamento</label>
-                <select name="forma-pagamento" id="iforma-pagamento" onchange="CondicaoPagamento()" required>
-                    <option default value="Selecione">Selecione a forma de Pagamento</option>
+                <label for="iforma_pagamento">Forma de Pagamento</label>
+                <select name="forma_pagamento" id="iforma_pagamento" onchange="CondicaoPagamento()" required>
+                    <option value="Selecione">Selecione a forma de Pagamento</option>
                     <option value="Boleto">Boleto</option>
                     <option value="Cartao">Cartão</option>
                 </select>
             </div>
             <div>
-                <label for="icond-pagamento">Condição de Pagamento</label>
-                <select name="condicao-pagamento" id="icond-pagamento" disabled>
+                <label for="icond_pagamento">Condição de Pagamento</label>
+                <select name="condicao_pagamento" id="icond_pagamento" disabled required>
+                    <option value="0"></option>
                     <option value="1">Preço à vista</option>
                     <option value="2">Em 2x sem juros</option>
                     <option value="3">Em 3x sem juros</option>
@@ -54,7 +55,7 @@
                 <p><?php echo $valorPadrao;?></p>
             </div>
             <div>
-                <input type="submit" value="Confirmar">
+                <input type="submit" value="Confirmar" onclick="Corfirmar()">
             </div>
         </form>
     </section>
@@ -63,8 +64,8 @@
 
         function CondicaoPagamento()
         {
-            var formaPagamento = document.getElementById("iforma-pagamento").value;
-            var condicaoPagamento = document.getElementById("icond-pagamento");
+            var formaPagamento = document.getElementById("iforma_pagamento").value;
+            var condicaoPagamento = document.getElementById("icond_pagamento");
 
             if (formaPagamento === "Boleto") 
             {
@@ -78,13 +79,13 @@
             }
             else if (formaPagamento === "Selecione")
             {
-                condicaoPagamento.value = "1";
+                condicaoPagamento.value = "0";
                 condicaoPagamento.disabled = true;
                 valorParcela.innerHTML = "<?php echo $valorPadrao;?>";
             }
         }
 
-        var select = document.getElementById("icond-pagamento");
+        var select = document.getElementById("icond_pagamento");
 
         select.onchange = function() {
             var valorSelecionado = parseInt(select.value);
@@ -94,6 +95,26 @@
 
             valorParcela.innerHTML = resultadoFormatado;
         }
+
+        function Confirmar() {
+            var formaPagamento = document.getElementById("forma_pagamento").value;
+
+            if (formaPagamento == 'Selecione')
+            {
+                alert("Selecione uma Forma de Pagamento!");
+            }
+        }
     </script>
+    <?php 
+
+
+
+        // $formaPagamento = $_POST["formapagamento"];
+        
+        // echo($formaPagamento);
+        // {
+        //     echo "<script>alert('Selecione a Forma de Pagamento!')</script>";
+        // }
+    ?>
 </body>
 </html>

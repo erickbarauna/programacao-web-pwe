@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="camadas.css">
 </head>
 <body>
     <header>
-        <h1>Tela Cadastro</h1>
+        <h1>Tela de Cadastro</h1>
     </header>
     <section>
         <form action="cadastro.php?valor=enviado" method="POST">
@@ -26,13 +26,12 @@
                 <input type="text" name="Valor" id="ivalor" required>
             </div>
             <div>
-                <input type="submit" value="Confirmar">
+                <input type="submit" value="Confirmar" id="iconfirmar" onclick="Corfimar()" required>
             </div>
         </form>
     </section>
-    
     <?php 
-        if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado')) 
+        if (isset($_REQUEST['Valor']) and ($_REQUEST['valor'] == 'enviado')) 
         {
             $semVirgula = str_replace(",", ".", $_POST['Valor']);
 
