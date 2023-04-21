@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagamento</title>
-    <link rel="stylesheet" href="camadas.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <?php 
@@ -14,23 +14,38 @@
         $valor = $_SESSION['valor_total'];
         $padraoBr = numfmt_create("pt_BR", NumberFormatter::CURRENCY);
         $valorPadrao = numfmt_format_currency($padraoBr, $valor, "BRL");
+
+        if (isset($_REQUEST['condicaoPagamento']) and ($_REQUEST['valor'] == 'enviado'))
+        {
+            if ($_POST['condicaoPagamento'] == 0)
+            {
+                echo "<script> alert('Selecione uma Forma de Pagamento.')</script>";
+            }
+            else
+            {
+                $_SESSION['forma_pagamento'] = $_POST['formaPagamento'];
+                $_SESSION['valor_parcela'] = $_POST['condicaoPagamento'];
+    
+                header("Location: pedido.php");
+            }
+        } 
     ?>
     <header>
         <h1>Tela de Pagamento</h1>
     </header>
     <section>
-        <form action="pagamento.php?valor=enviado" method="$_POST">
+        <form action="pagamento.php?valor=enviado" method="POST">
             <div>
-                <label for="iforma_pagamento">Forma de Pagamento</label>
-                <select name="forma_pagamento" id="iforma_pagamento" onchange="CondicaoPagamento()" required>
-                    <option value="Selecione">Selecione a forma de Pagamento</option>
+                <label for="iformaPagamento">Forma de Pagamento</label>
+                <select name="formaPagamento" id="iformaPagamento" onchange="CondicaoPagamento()" required oninvalid="this.setCustomValidity('Por favor, selecione uma forma de pagamento.')">
+                    <option value="">Selecione a forma de Pagamento</option>
                     <option value="Boleto">Boleto</option>
                     <option value="Cartao">Cartão</option>
                 </select>
             </div>
             <div>
-                <label for="icond_pagamento">Condição de Pagamento</label>
-                <select name="condicao_pagamento" id="icond_pagamento" disabled required>
+                <label for="icondPagamento">Condição de Pagamento</label>
+                <select name="condicaoPagamento" id="icondPagamento" disabled>
                     <option value="0"></option>
                     <option value="1">Preço à vista</option>
                     <option value="2">Em 2x sem juros</option>
@@ -48,36 +63,46 @@
             </div>
             <div class="valores">
                 <p>Valor da Parcela:</p>
-                <p id="valorParcela"><?php echo $valorPadrao;?></p>
+                <p id="Parcela" name="valorParcela"><?php echo $valorPadrao;?></p>
             </div>
             <div class="valores">
                 <p>Valor Total:</p>
                 <p><?php echo $valorPadrao;?></p>
             </div>
             <div>
-                <input type="submit" value="Confirmar" onclick="Corfirmar()">
+                <input type="submit" value="Confirmar">
             </div>
         </form>
     </section>
     <script>
-        var valorParcela = document.getElementById("valorParcela");
+        var valorParcela = document.getElementById("Parcela");
 
         function CondicaoPagamento()
         {
-            var formaPagamento = document.getElementById("iforma_pagamento").value;
-            var condicaoPagamento = document.getElementById("icond_pagamento");
+            var formaPagamento = document.getElementById("iformaPagamento").value;
+            var condicaoPagamento = document.getElementById("icondPagamento");
+
+            condicaoPagamento.value = "1";
+            condicaoPagamento.disabled = false;
 
             if (formaPagamento === "Boleto") 
             {
-                condicaoPagamento.value = "1";
-                condicaoPagamento.disabled = true;
+                for (var i = condicaoPagamento.options.length - 1; i >= 0; i--) {
+                    var option = condicaoPagamento.options[i];
+                    if (option.value !== "1") {option.disabled = true;}
+                    else { option.disabled = false;}
+                }
                 valorParcela.innerHTML = "<?php echo $valorPadrao;?>";
             } 
             else if (formaPagamento === "Cartao") 
             {
-                condicaoPagamento.disabled = false;
+                for (var i = condicaoPagamento.options.length - 1; i >= 0; i--) {
+                    var option = condicaoPagamento.options[i];
+                    if (option.value !== "0") {option.disabled = false;}
+                    else { option.disabled = true;}
+                }
             }
-            else if (formaPagamento === "Selecione")
+            else if (formaPagamento === "")
             {
                 condicaoPagamento.value = "0";
                 condicaoPagamento.disabled = true;
@@ -85,7 +110,7 @@
             }
         }
 
-        var select = document.getElementById("icond_pagamento");
+        var select = document.getElementById("icondPagamento");
 
         select.onchange = function() {
             var valorSelecionado = parseInt(select.value);
@@ -95,26 +120,6 @@
 
             valorParcela.innerHTML = resultadoFormatado;
         }
-
-        function Confirmar() {
-            var formaPagamento = document.getElementById("forma_pagamento").value;
-
-            if (formaPagamento == 'Selecione')
-            {
-                alert("Selecione uma Forma de Pagamento!");
-            }
-        }
     </script>
-    <?php 
-
-
-
-        // $formaPagamento = $_POST["formapagamento"];
-        
-        // echo($formaPagamento);
-        // {
-        //     echo "<script>alert('Selecione a Forma de Pagamento!')</script>";
-        // }
-    ?>
 </body>
 </html>
