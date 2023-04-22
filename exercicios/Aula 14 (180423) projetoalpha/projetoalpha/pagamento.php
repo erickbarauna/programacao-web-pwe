@@ -17,17 +17,10 @@
 
         if (isset($_REQUEST['condicaoPagamento']) and ($_REQUEST['valor'] == 'enviado'))
         {
-            if ($_POST['condicaoPagamento'] == 0)
-            {
-                echo "<script> alert('Selecione uma Forma de Pagamento.')</script>";
-            }
-            else
-            {
-                $_SESSION['forma_pagamento'] = $_POST['formaPagamento'];
-                $_SESSION['valor_parcela'] = $_POST['condicaoPagamento'];
-    
-                header("Location: pedido.php");
-            }
+            $_SESSION['forma_pagamento'] = $_POST['formaPagamento'];
+            $_SESSION['valor_parcela'] = $_POST['condicaoPagamento'];
+
+            header("Location: pedido.php");
         } 
     ?>
     <header>
@@ -37,7 +30,7 @@
         <form action="pagamento.php?valor=enviado" method="POST">
             <div>
                 <label for="iformaPagamento">Forma de Pagamento</label>
-                <select name="formaPagamento" id="iformaPagamento" onchange="CondicaoPagamento()" required oninvalid="this.setCustomValidity('Por favor, selecione uma forma de pagamento.')">
+                <select name="formaPagamento" id="iformaPagamento" onchange="CondicaoPagamento()" required>
                     <option value="">Selecione a forma de Pagamento</option>
                     <option value="Boleto">Boleto</option>
                     <option value="Cartao">Cartão</option>
