@@ -22,7 +22,7 @@
                 <input type="text" name="Endereco" id="iendereco" required>
             </div>
             <div>
-                <label for="ivalor">Valor</label>
+                <label for="ivalor">Valor do Pedido</label>
                 <input type="text" name="Valor" id="ivalor" required>
             </div>
             <div>
