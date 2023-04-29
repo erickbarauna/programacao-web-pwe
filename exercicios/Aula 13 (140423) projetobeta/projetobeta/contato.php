@@ -15,11 +15,11 @@
     {
         // Cria sessão se usuário tiver clicado no botao enviar do formulario
 
-        $Nome = $_POST["Nome"];
-        $Email = $_POST["Email"];
-        $Fone = $_POST["Fone"];
-        $Msg = $_POST["Mensagem"];
-        $Assunto = $_POST["Assunto"];
+        $Nome = $_POST["nome_contato"];
+        $Email = $_POST["email_contato"];
+        $Fone = $_POST["fone_contato"];
+        $Msg = $_POST["mensagem_contato"];
+        $Assunto = $_POST["assunto_contato"];
         $Resposta = null;
 
         echo ("<header><h1>Dados Cadastrados</h1></header>");
@@ -76,25 +76,25 @@
     {
         ?>
         <header>
-            <h1>Formúlario com Banco de Dados</h1>
+            <h1>Tela Fale Conosco</h1>
         </header>
         <section>
             <form name="form1" action="contato.php?valor=enviado" method="post">
                 <div>
-                    <label for="Nome">Nome:</label>
-                    <input type="text" name="Nome" size="35" id="Nome">
+                    <label for="inome_contato">Nome:</label>
+                    <input type="text" name="nome_contato" size="35" id="inome_contato" placeholder="Preencha seu Nome">
                 </div>
                 <div>
-                    <label for="Email">E-mail:</label>
-                    <input type="text" name="Email" placeholder="email@servidor.com" size="35" id="Email">
+                    <label for="iemail_contato">E-mail:</label>
+                    <input type="text" name="email_contato" placeholder="email@servidor.com" size="35" id="iemail_contato">
                 </div>
                 <div>
-                    <label for="Fone">Telefone:</label>
-                    <input type="text" name="Fone" id="Fone" placeholder="(00) 0-0000-0000" size="35">
+                    <label for="ifone_contato">Telefone:</label>
+                    <input type="text" name="fone_contato" id="ifone_contato" placeholder="(00) 0-0000-0000" size="35">
                 </div>
                 <div>
-                    <label for="Assunto">Assunto:</label>
-                    <select name="Assunto" id="Assunto">
+                    <label for="iassunto_contato">Assunto:</label>
+                    <select name="assunto_contato" id="iassunto_contato">
                         <option default value="Selecione">Selecione o assunto!</option>
                         <option value="Duvidas">Dúvidas</option>
                         <option value="Elogios">Elogios</option>
@@ -103,9 +103,9 @@
                     </select>
                 </div>
                 <div>
-                    <label for="Mensagem">Mensagem:</label>
+                    <label for="imensagem_contato">Mensagem:</label>
                     <br>
-                    <textarea name="Mensagem" id="Mensagem" cols="40" rows="8"></textarea>
+                    <textarea name="mensagem_contato" id="imensagem_contato" cols="40" rows="8"></textarea>
                 </div>
                 <br>
                 <div>
