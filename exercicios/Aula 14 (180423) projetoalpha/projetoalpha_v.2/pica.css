@@ -3,17 +3,13 @@
 * {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     box-sizing: border-box;
+    margin: 0;
 }
 
 /* ELEMENTOS DA INTERFACE */
 
 body {
-    background-color: white;
-    background-image: linear-gradient(180deg, #95969a, #14110f61);
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    background-attachment: fixed;
+    background-color: #89898d;
 
     display: flex;
     flex-direction: column;
@@ -24,10 +20,6 @@ body {
 
 header, section, article {
     max-width: 700px;
-}
-
-main {
-    max-width: 850px;
 }
 
 header > h1 {
@@ -264,26 +256,52 @@ input[type=radio] + label, input[type=checkbox] + label {
 .produto {
     display: flex;
     justify-content: inherit;
+    border: 1px solid tomato;
+
     /* padding: 5px; */
 }
 
-.produto img{
-    margin-right: 10px;
+.produto img {
+    border-radius: 5px;
+    border: 1px solid tomato;
 }
 
-.titulo {
+.desc {
+    border: 1px solid tomato;
+    padding: 10px 50px 10px 50px;
+    align-items: center;
+}
+
+.desc .titulo {
+
     display: flex;
-    margin-bottom: 100px;
 }
 
-.titulo .destaque {
-    color: rgb(232, 0, 0);
-    font-weight: bolder;
+.titulo strong {
+    color: red;
     margin-left: 7px;
+    font-size: 2em;
 }
 
-.descricao {
-    
+.desc p {
+    color: rgb(93, 93, 93);
+    font-size: 14px;
+   
+}
 
-    
+.valor {
+    border: 1px solid tomato;
+ 
+
+}
+
+.sem-estilo {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
