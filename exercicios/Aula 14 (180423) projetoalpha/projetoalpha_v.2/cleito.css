@@ -8,8 +8,8 @@
 /* ELEMENTOS DA INTERFACE */
 
 body {
-    background-color: #15142b;
-    background-image: linear-gradient(180deg, #372991, #15142b);
+    background-color: white;
+    background-image: linear-gradient(180deg, #95969a, #14110f61);
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -27,7 +27,7 @@ header, section, article {
 }
 
 main {
-    max-width: 900px;
+    max-width: 850px;
 }
 
 header > h1 {
@@ -262,20 +262,28 @@ input[type=radio] + label, input[type=checkbox] + label {
 }
 
 .produto {
-    border: 1px solid tomato;
     display: flex;
-    /* justify-content: ; */
-    padding: 5px;
+    justify-content: inherit;
+    /* padding: 5px; */
 }
 
 .produto img{
-    border: 1px solid tomato;
-    margin: 5px;
-    padding: 5px;
+    margin-right: 10px;
 }
 
-.preco {
-    border: 1px solid tomato;
-    margin: 5px;
-    padding: 5px;
+.titulo {
+    display: flex;
+    margin-bottom: 100px;
+}
+
+.titulo .destaque {
+    color: rgb(232, 0, 0);
+    font-weight: bolder;
+    margin-left: 7px;
+}
+
+.descricao {
+    
+
+    
 }
