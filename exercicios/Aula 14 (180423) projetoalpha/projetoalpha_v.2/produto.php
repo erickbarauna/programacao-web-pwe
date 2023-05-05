@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela Produto</title>
-    <link rel="stylesheet" href="pica.css">
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
     <header>
@@ -13,35 +13,35 @@
     </header>
     <main>
         <div class="produto">
-            <img src="img/dodge-viper-700.jpg" alt="">
+            <div class="imagem">
+                <img src="img/dodge-viper-700.jpg" alt="">
+            </div>
             <div class="desc">
                 <div class="titulo">
                     <h1>DODGE</h1><strong>VIPER</strong>
                 </div>
                 <p>8.4 SRT V10 GASOLINA 2P MANUAL</p>
 
-                <ul class="sem-estilo">
-                    <li>
-                        <p>carro</p>
-                        <p>carro</p>
-                    </li>
-                    <li>
-                        <p>carro</p>
-                        <p>carro</p>
-                    </li>
-                    <li>
-                        <p>carro</p>
-                        <p>carro</p>
-                    </li>
-                    <li>
-                        <p>carro</p>
-                        <p>carro</p>
-                    </li>
-                    <li>
-                        <p>carro</p>
-                        <p>carro</p>
-                    </li>
-                </ul>
+                <p>Informações</p>
+                <p>Ano: 2017</p> 
+                <p>Combustível: Gasolina</p> 
+                <p>Configuração: Cupê</p> 
+                <p>Lugares: 2</p> 
+                <p>Portas: 2</p> 
+                <p>Porte: Médio</p> 
+                <p>Precedência Importado</p> 
+                <p>Série: VX</p>
+                <p>Aceleração: </p>
+                <p>Vel. Máxima:</p>
+                <p>Acoplamento:</p>
+                <p>Cambio:</p>
+                <p>Marchas:</p>
+                <p>Tração:</p>
+                <p>Cilindrada:</p>
+                <p>Cilindro:</p>
+                <p>Potência:</p>
+                <p>Torque:</p>
+
                 
                 
                 <div class="valor">
