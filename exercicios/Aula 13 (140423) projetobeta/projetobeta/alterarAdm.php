@@ -1,71 +1,58 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dados do usuário</title>
-    <link rel="stylesheet" href="style.css">
+	<title></title>
+	<meta charset="utf-8">
 </head>
 <body>
-    <?php 
-        session_start();
+<?php 
+session_start();
+echo "Dados do Usuário Administrativo:<br><br>";
+echo "Nome: " . $_SESSION['nomeAdm'] . "<br>";
+echo "Usuario: " . $_SESSION['emailAdm'] . '<BR>'.'<BR>';
 
-        echo "<p>Dados do Usuário Administrativo:</p>";
-        echo "<p>Nome: " .$_SESSION['nomeAdm'] ."</p>";
-        echo "<p>Usuário: " .$_SESSION['emailAdm'] ."</p>";
+if ($_SESSION ['controleAdm'] == 'alterado' )
+{
+	echo "Cadastro atualizado com sucesso:". '<br>'.'<br>';
+}
+else
+{
+	echo "Preencha o campo desejado para ser alterado:". '<br>'.'<br>';
+}
 
-        if ($_SESSION['controleAdm'] == 'alterado')
-        {
-            echo "<p> Cadastro atualizado com sucesso:</p>";
-        }
-        else
-        {
-            echo "<p>Preencha o campo desejado para ser alterado:</p>";
-        }
+if(isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado'))
+{
+    $Botao = $_POST ["Botao"]; 
 
-        if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado'))
-        {
-            $Botao = $_POST['botao'];
+    if ($Botao =="Alterar")
+    {
+        include "AlteradoAdm.php";   
+    }
+    if ($Botao =="Gerenciar")
+    {
+        $_SESSION['controleResp'] = "gerenciar";
+        header('location:FaleConoscoAdm.php'); 
+    }
+}
+else 
+{
+    ?> 
+    <form name="form1" action="AlterarAdm.php?valor=enviado" method="POST">
+  		Nome: <br>
+  		<input class="input" type="text" id ="nome_cadastro" placeholder="Preencher Nome" name="nome_cadastro"><BR><p>
+ 		  Usuário:(Email) <br>
+  		<input class="input" type="text" placeholder="Preencher E-mail" name="usuario_cadastro"><BR><p>
+ 		  Senha:<br>
+  		<input class="input" type="password" placeholder="Preencher Senha" name="senha_cadastro" maxlength="8" required><BR><p>
+ 		  Confirmar Senha:<br>
+ 		  <input class="input" type="password" placeholder="Preencher Senha" name="senha_confirma" maxlength="8" required><BR><p>
+ 
+ 		  <input name="Botao" type="submit" value="Alterar">
+ 		  <input name="Botao" type="submit" value="Gerenciar"><br><p>
 
-            if ($Botao == "Alterar")
-            {
-                include "alterdoAdm.php";
-            }
-            if ($Botao == "Gerenciar")
-            {
-                $_SESSION['controleResp'] = "gerenciar";
-                header('location:faleConoscoAdm.php');
-            }
-        }
-    ?>
-    <header>
-        <h1>Dados da Conta</h1>
-    </header>
-    <section>
-        <form action="AlterarAdm.php?valor=enviado" method="POST" name="form1">
-            <div>
-                <label for="inome_cadastro">Nome:</label>
-                <input type="text" name="nome_cadastro" id="inome_cadastro" placeholder="Preencha seu Nome">
-            </div>
-            <div>
-                <label for="iusuario_cadastro">Usuário: (Email)</label>
-                <input type="email" name="usuario_cadastro" id="iusuario_cadastro" placeholder="Preencha seu E-mail">
-            </div>
-            <div>
-                <label for="isenha_cadastro">Senha:</label>
-                <input type="password" name="senha_cadastro" id="isenha_cadastro" placeholder="Preencha sua Senha" maxlength="8" required>
-            </div>
-            <div>
-                <label for="isenha_confirma">Confirmar senha:</label>
-                <input type="password" name="senha_confirma" id="isenha_confirma" placeholder="Preencha sua Senha" maxlength="8" required>
-            </div>
-            <br>
-            <div>
-                <input type="submit" value="Alterar" name="botao">
-                <input type="button" value="Gerenciar" name="botao">
-            </div>
-        </form>
-    </section>
-</body>
-</html>
+		  </p>
+		</form>
+    </body>
+  <?php 
+}
+?>
