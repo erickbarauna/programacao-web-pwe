@@ -1,7 +1,33 @@
 <?php 
     include "conexao.php";
+    $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
+    $tabela -> execute();
 
-    
+    while ($dados = $tabela -> fetch(PDO::FETCH_OBJ))
+    {
+        $foto = $dados -> FOTO_PRODUTO;
+        $valor = $dados -> VALOR_PRODUTO;
+        $fabricante = $dados -> FABRICANTE_PRODUTO;
+        $modelo = $dados -> MODELO_PRODUTO;
+        $fichaTec = $dados -> FICHATEC_PRODUTO;
+        $ano = $dados -> ANO_PRODUTO;
+        $combustivel = $dados -> COMBUSTIVEL_PRODUTO;
+        $velMax = $dados -> VELMAX_PRODUTO;
+        $lugares = $dados -> LUGARES_PRODUTO;
+        $portas = $dados -> PORTAS_PRODUTO;
+        $cambio = $dados -> CAMBIO_PRODUTO;
+        $precedencia = $dados -> PRECEDENCIA_PRODUTO;
+        $marchas = $dados -> MARCHAS_PRODUTO;
+        $aceleracao = $dados -> ACELERACAO_PRODUTO;
+        $cilindros = $dados -> CILINDRO_PRODUTO;
+        $potencia = $dados -> POTENCIA_PRODUTO;
+        $torque = $dados -> TORQUE_PRODUTO;
+        $tracao = $dados -> TRACAO_PRODUTO;
+    }
+
+    // Formatando o $valor para o padrão monetário brasileiro
+    $padraoBr = numfmt_create("pt_BR", NumberFormatter::CURRENCY);
+    $valor = numfmt_format_currency($padraoBr, $valor, "BRL");
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -19,32 +45,32 @@
     <main>
         <div class="produto">
             <div class="imagem">
-                <img src="img/dodge-viper-700.jpg" alt="">
+                <img src="<?php echo($foto);?>" alt="Dodge Viper SRT V10">
             </div>
             <div class="desc">
                 <div class="titulo">
-                    <h1>DODGE</h1><strong>VIPER</strong>
+                    <h1><?php echo($fabricante);?></h1><strong><?php echo($modelo);?></strong>
                 </div>
-                <p class="sub-titulo">8.4 SRT V10 GASOLINA 2P MANUAL</p>
+                <p class="sub-titulo"><?php echo($fichaTec);?></p>
                 <div class="info">
                     <div>
-                        <p><strong>Ano:</strong> 2017</p>
-                        <p><strong>Combustível:</strong> Gasolina</p>
-                        <p><strong>Vel.Máx:</strong> 331 km/h</p>
-                        <p><strong>Lugares:</strong> 2</p>
-                        <p><strong>Portas:</strong> 2</p>
-                        <p><strong>Cambio:</strong> Manual</p>
-                        <p><strong>Precedência:</strong> Importado</p>
-                        <p><strong>Marchas:</strong> 6</p>.
-                        <p><strong>0-100km/h:</strong> 3,5s</p>
-                        <p><strong>Cilindros:</strong> 10 em V</p>.
-                        <p><strong>Potência:</strong> 654 cv</p>.
-                        <p><strong>Torque:</strong> 83 kgfm</p>.
-                        <p><strong>Tração:</strong> Traseira</p>.
+                        <p><strong>Ano:</strong> <?php echo($ano); ?></p>
+                        <p><strong>Combustível:</strong> <?php echo($combustivel); ?></p>
+                        <p><strong>Vel.Máx:</strong> <?php echo($velMax); ?></p>
+                        <p><strong>Lugares:</strong> <?php echo($lugares); ?></p>
+                        <p><strong>Portas:</strong> <?php echo($portas); ?></p>
+                        <p><strong>Cambio:</strong> <?php echo($cambio); ?></p>
+                        <p><strong>Precedência:</strong> <?php echo($precedencia); ?></p>
+                        <p><strong>Marchas:</strong> <?php echo($marchas); ?></p>
+                        <p><strong>0-100km/h:</strong> <?php echo($aceleracao); ?></p>
+                        <p><strong>Cilindros:</strong> <?php echo($cilindros); ?></p>
+                        <p><strong>Potência:</strong> <?php echo($potencia); ?></p>
+                        <p><strong>Torque:</strong> <?php echo($torque); ?></p>
+                        <p><strong>Tração:</strong> <?php echo($tracao); ?></p>
                     </div>
                 </div>
                 <div class="valor">
-                    <h2>R$ 1.200.000,00</h2>
+                    <h2><?php echo($valor); ?></h2>
                     <button>COMPRAR</button>
                 </div>
             </div>
