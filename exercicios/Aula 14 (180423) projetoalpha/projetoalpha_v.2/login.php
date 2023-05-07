@@ -28,10 +28,13 @@
         </form>
     </main>
     <?php 
+        session_start();
+        $_SESSION['usuario'] = "";
+
         if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado'))
         {
             $botao = $_POST ["botao"]; 
-        
+            
             if ($botao == "Login")
             {
                 $email = $_POST['email'];
@@ -48,6 +51,8 @@
                 {
                     if ($comando -> rowCount() > 0)
                     {
+                        $_SESSION['emailUsuario'] = $_POST['email'];
+                        $_SESSION['senhaUsuario'] = $_POST['senha'];
                         header('location:cadastro.php');
                     }
                     else
@@ -59,6 +64,7 @@
 
             if ($botao == "Cadastre-se")
             {
+                $_SESSION['usuario'] = 'novoUsuario';
                 header('location:cadastro.php');
             }
         }
