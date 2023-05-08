@@ -25,6 +25,9 @@
         $tracao = $dados -> TRACAO_PRODUTO;
     }
 
+    session_start();
+    $_SESSION['valorProduto'] = 55;
+
     // Formatando o $valor para o padrão monetário brasileiro
     $padraoBr = numfmt_create("pt_BR", NumberFormatter::CURRENCY);
     $valor = numfmt_format_currency($padraoBr, $valor, "BRL");
@@ -71,10 +74,16 @@
                 </div>
                 <div class="valor">
                     <h2><?php echo($valor); ?></h2>
-                    <button>COMPRAR</button>
+                    <button onclick="Comprar()">COMPRAR</button>
                 </div>
             </div>
         </div>
     </main>
+    <script>
+        function Comprar()
+        {
+            window.location.href = 'login.php';
+        }
+    </script>
 </body>
 </html>

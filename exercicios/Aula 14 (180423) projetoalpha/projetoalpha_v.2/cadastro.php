@@ -1,78 +1,48 @@
 <?php 
-    session_start();
-
-    if ($_SESSION['usuario'] == 'novoUsuario')
+    if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado')) 
     {
-        if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado')) 
+        $nome = $_POST["nome"];
+        $endereco = $_POST["end"];
+        $email = $_POST["email"];
+        $senha = $_POST["senha"];
+
+        include "conexao.php";
+
+        try 
         {
-            $nome = $_POST["nome"];
-            $endereco = $_POST["end"];
-            $email = $_POST["email"];
-            $senha = $_POST["senha"];
-    
-            include "conexao.php";
-    
-            try 
+            if ($senha = $_POST["senhaConfirm"])
             {
-                if ($senha = $_POST["senhaConfirm"])
+                $Comando = $conexao -> prepare("INSERT INTO tb_usuario (NOME_USUARIO, ENDERECO_USUARIO, EMAIL_USUARIO, SENHA_USUARIO) VALUES (?, ?, ?, ?)");
+
+                $Comando -> bindParam(1, $nome);
+                $Comando -> bindParam(2, $endereco);
+                $Comando -> bindParam(3, $email);
+                $Comando -> bindParam(4, $senha);
+
+                if ($Comando -> execute())
                 {
-                    $Comando = $conexao -> prepare("INSERT INTO tb_usuario (NOME_USUARIO, ENDERECO_USUARIO, EMAIL_USUARIO, SENHA_USUARIO) VALUES (?, ?, ?, ?)");
-    
-                    $Comando -> bindParam(1, $nome);
-                    $Comando -> bindParam(2, $endereco);
-                    $Comando -> bindParam(3, $email);
-                    $Comando -> bindParam(4, $senha);
-    
-                    if ($Comando -> execute())
+                    if ($Comando -> rowCount() > 0)
                     {
-                        if ($Comando -> rowCount() > 0)
-                        {
-                            echo("<script>alert('Cadastro realizado com sucesso!')</script>");
-                        }
-                        else
-                        {
-                            echo("Erro ao tentar efetivar o contato!");
-                        }
+                        echo("<script>alert('Cadastro realizado com sucesso!')</script>");
                     }
                     else
                     {
-                        throw new PDOException("Erro: Não foi possível executar a declaração sql.");
+                        echo("Erro ao tentar efetivar o contato!");
                     }
                 }
                 else
                 {
-                    echo("<script>alert('As senhas não são iguais!')</script>");
+                    throw new PDOException("Erro: Não foi possível executar a declaração sql.");
                 }
             }
-            catch (PDOException $erro) 
+            else
             {
-                echo("Erro" . $erro -> getMessage());
+                echo("<script>alert('As senhas não são iguais!')</script>");
             }
         }
-    }
-    else
-    {
-        $_SESSION['emailUsuario'];
-        $_SESSION['senhaUsuario'];
-
-        include "conexao.php";
-        $comando = $conexao -> prepare("SELECT * FROM tb_usuario WHERE EMAIL_USUARIO = ? AND SENHA_USUARIO = ?");
-        
-        $comando -> bindParam(1, $email);
-        $comando -> bindParam(2, $senha);
-
-        if ($comando -> execute())
+        catch (PDOException $erro) 
         {
-            if ($comando -> rowCount() > 0)
-            {
-                while ($dados = $tabela -> fetch(PDO::FETCH_OBJ))
-                {
-                    $nomeUsuario = $dados -> NOME_USUARIO;
-                    $enderecoUsuario = $dados -> ENDERECO_USUARIO;
-                    $emailUsuario = $dados -> EMAIL_USUARIO;
-                    $senhaUsuario = $dados -> SENHA_USUARIO;
-                }
-            }
+            echo("Erro" . $erro -> getMessage());
         }
     }
 ?>
@@ -93,7 +63,7 @@
         <form action="cadastro.php?valor=enviado" method="POST">
             <div>
                 <label for="inome">Nome</label>
-                <input type="text" name="nome" id="inome" required value="opinha">
+                <input type="text" name="nome" id="inome" required>
             </div>
             <div>
                 <label for="iend">Endereço</label>
@@ -116,19 +86,5 @@
             </div>
         </form>
     </main>
-    <script>
-        alert("oi");
-        var nomeInput = document.getElementById("inome");
-        var endInput = document.getElementById("iend");
-        var emailInput = document.getElementById("iemail");
-        var senhaInput = document.getElementById("isenha");
-        var senhaConfirmInput = document.getElementById("isenhaConfirm");
-
-        nomeInput.value = "<?php echo($nomeUsuario);?>";
-        endInput.value = "<?php echo($enderecoUsuario);?>";
-        emailInput.value = "<?php echo($emailUsuario);?>";
-        senhaInput.value = "<?php echo($senhaUsuario);?>";
-        senhaConfirmInput.value = "<?php echo($senhaUsuario);?>";
-    </script>
 </body>
 </html>

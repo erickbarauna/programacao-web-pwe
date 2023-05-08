@@ -15,11 +15,11 @@
         <form action="login.php?valor=enviado" method="POST">
             <div>
                 <label for="iemail">Email</label>
-                <input type="email" name="email" id="iemail" placeholder="Digite seu email" required>
+                <input type="email" name="email" id="iemail" placeholder="Digite seu email">
             </div>
             <div>
                 <label for="isenha">Senha</label>
-                <input type="password" name="senha" id="isenha" placeholder="Digite sua senha" required>
+                <input type="password" name="senha" id="isenha" placeholder="Digite sua senha">
             </div>
             <div>
                 <input type="submit" value="Cadastre-se" name="botao">
@@ -29,7 +29,6 @@
     </main>
     <?php 
         session_start();
-        $_SESSION['usuario'] = "";
 
         if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado'))
         {
@@ -42,7 +41,7 @@
 
                 include "conexao.php";
 
-                $comando = $conexao -> prepare("SELECT EMAIL_USUARIO, SENHA_USUARIO FROM tb_usuario WHERE EMAIL_USUARIO = ? AND SENHA_USUARIO = ?");
+                $comando = $conexao -> prepare("SELECT EMAIL_USUARIO, SENHA_USUARIO  FROM tb_usuario WHERE EMAIL_USUARIO = ? AND SENHA_USUARIO = ?");
 
                 $comando -> bindParam(1, $email);
                 $comando -> bindParam(2, $senha);
@@ -53,7 +52,7 @@
                     {
                         $_SESSION['emailUsuario'] = $_POST['email'];
                         $_SESSION['senhaUsuario'] = $_POST['senha'];
-                        header('location:cadastro.php');
+                        header('location:alterarUsuario.php');
                     }
                     else
                     {
@@ -64,7 +63,6 @@
 
             if ($botao == "Cadastre-se")
             {
-                $_SESSION['usuario'] = 'novoUsuario';
                 header('location:cadastro.php');
             }
         }
