@@ -41,7 +41,7 @@
 
                 include "conexao.php";
 
-                $comando = $conexao -> prepare("SELECT EMAIL_USUARIO, SENHA_USUARIO  FROM tb_usuario WHERE EMAIL_USUARIO = ? AND SENHA_USUARIO = ?");
+                $comando = $conexao -> prepare("SELECT * FROM tb_usuario WHERE EMAIL_USUARIO = ? AND SENHA_USUARIO = ?");
 
                 $comando -> bindParam(1, $email);
                 $comando -> bindParam(2, $senha);
@@ -50,8 +50,19 @@
                 {
                     if ($comando -> rowCount() > 0)
                     {
-                        $_SESSION['emailUsuario'] = $_POST['email'];
-                        $_SESSION['senhaUsuario'] = $_POST['senha'];
+                        $_SESSION['emailUsuario'] = $email;
+                        $_SESSION['senhaUsuario'] = $senha;
+
+                        while ($dados = $comando -> fetch(PDO::FETCH_OBJ))
+                        {
+                            $nomeUsuario = $dados -> NOME_USUARIO;
+                            $enderecoUsuario = $dados -> ENDERECO_USUARIO;
+                        }
+
+                        // Seção usada no arquivo pedido.php
+                        $_SESSION['nomeCadastrado'] = $nomeUsuario;
+                        $_SESSION['endCadastrado'] = $enderecoUsuario;
+
                         header('location:alterarUsuario.php');
                     }
                     else

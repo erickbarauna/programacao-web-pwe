@@ -10,7 +10,7 @@
 
         try 
         {
-            if ($senha = $_POST["senhaConfirm"])
+            if ($senha == $_POST["senhaConfirm"])
             {
                 $Comando = $conexao -> prepare("INSERT INTO tb_usuario (NOME_USUARIO, ENDERECO_USUARIO, EMAIL_USUARIO, SENHA_USUARIO) VALUES (?, ?, ?, ?)");
 

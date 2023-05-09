@@ -21,10 +21,10 @@
 
         while ($dados = $tabela -> fetch(PDO::FETCH_OBJ)) $valor = $dados -> VALOR_PRODUTO;
 
-        $formPagamento = $_SESSION['forma_pagamento'];
-        $valorParcela = $_SESSION['valor_parcela'];
+        $condicaoPagamento = $_SESSION['forma_pagamento'];
+        $formaPagamento = $_SESSION['valor_parcela'];
 
-        $calcParcela = $valor / $valorParcela;
+        $calcParcela = $valor / $formaPagamento;
 
         $padraoBr = numfmt_create("pt_BR", NumberFormatter::CURRENCY);
         $valorPadraoParcela = numfmt_format_currency($padraoBr, $calcParcela, "BRL");
@@ -44,19 +44,65 @@
         </div>
         <div class="valoresRecibo">
             <p class="labelValor">Forma de Pagamento:</p>
-            <p><?php echo $formPagamento;?></p>
+            <p><?php echo $condicaoPagamento;?></p>
         </div>
         <div class="valoresRecibo">
             <p class="labelValor">Valor da Parcela:</p>
-            <p><?php echo $valorParcela . " vez(es) de " . $valorPadraoParcela;?></p>
+            <p><?php echo $formaPagamento . " vez(es) de " . $valorPadraoParcela;?></p>
         </div>
         <div class="valoresRecibo">
             <p class="labelValor">Valor Total:</p>
             <p><?php echo $valorPadraoTotal;?></p>
         </div>
-        <div class="refazer">
-            <button><a href="cadastro.php">Refazer</a></button>
+        <div id="botoes">
+            <button onclick="RegistrarPedido()">Registrar Pedido</button>
+            <button onclick="">Refazer</button>
         </div>
     </section>
+    <script>
+        var i = 0;
+
+        function RegistrarPedido()
+        {
+            if (i == 0)
+            {
+                <?php 
+                    include "conexao.php";
+
+                    try 
+                    {
+                        $Comando = $conexao -> prepare("INSERT INTO tb_pedido (NOME_USUARIO, ENDERECO_USUARIO, FORMA_PGTO, CONDICAO_PGTO, VALOR_PARCELA, VALOR_PRODUTO) VALUES (?, ?, ?, ?, ?, ?)");
+        
+                        $Comando -> bindParam(1, $nome);
+                        $Comando -> bindParam(2, $endereco);
+                        $Comando -> bindParam(3, $formaPagamento);
+                        $Comando -> bindParam(4, $condicaoPagamento);
+                        $Comando -> bindParam(5, $calcParcela);
+                        $Comando -> bindParam(6, $valor);                    
+        
+                        if ($Comando -> execute())
+                        {
+                            if ($Comando -> rowCount() > 0)
+                            {
+                                echo("<script>i += 1; alert('Registro realizado com sucesso!');</script>");
+                            }
+                            else
+                            {
+                                echo("Erro ao tentar registrar o pedido!");
+                            }
+                        }
+                        else
+                        {
+                            throw new PDOException("Erro: Não foi possível executar a declaração sql.");
+                        }
+                    }
+                    catch (PDOException $erro) 
+                    {
+                        echo("Erro" . $erro -> getMessage());
+                    }    
+                ?>
+            }
+        }
+    </script>
 </body>
 </html>
