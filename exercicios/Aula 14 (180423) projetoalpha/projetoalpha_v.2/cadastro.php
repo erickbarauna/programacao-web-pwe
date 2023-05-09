@@ -24,6 +24,12 @@
                     if ($Comando -> rowCount() > 0)
                     {
                         echo("<script>alert('Cadastro realizado com sucesso!')</script>");
+
+                        session_start();
+                        $_SESSION['nomeCadastrado'] = $nome;
+                        $_SESSION['endCadastrado'] = $endereco;
+
+                        header('Location: pagamento.php');
                     }
                     else
                     {

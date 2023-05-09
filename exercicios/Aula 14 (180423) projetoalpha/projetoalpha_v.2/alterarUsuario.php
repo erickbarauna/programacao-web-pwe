@@ -46,6 +46,8 @@
             $comando -> bindParam(6, $senha);
 
             if ($comando -> execute()) {
+                $_SESSION['nomeCadastrado'] = $nomeNovo;
+                $_SESSION['endCadastrado'] = $endNovo;
                 header('Location: pagamento.php');
             } else {
                 echo "<script>alert('Erro ao atualizar os dados!')</script>";

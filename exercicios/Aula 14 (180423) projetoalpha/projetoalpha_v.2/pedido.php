@@ -4,24 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedido</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Tela Pedido</title>
+    <link rel="stylesheet" href="perola.css">
 </head>
 <body>
     <?php 
         session_start();
 
-        $nome = $_SESSION['nome_usuario'];
-        $endereco = $_SESSION['endereco_usuario'];
+        $nome = $_SESSION['nomeCadastrado'];
+        $endereco = $_SESSION['endCadastrado'];
+
+        include 'conexao.php';
+        
+        $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
+        $tabela -> execute();
+
+        while ($dados = $tabela -> fetch(PDO::FETCH_OBJ)) $valor = $dados -> VALOR_PRODUTO;
+
         $formPagamento = $_SESSION['forma_pagamento'];
         $valorParcela = $_SESSION['valor_parcela'];
-        $valorTotal = $_SESSION['valor_total'];
 
-        $calcParcela = $valorTotal / $valorParcela;
+        $calcParcela = $valor / $valorParcela;
 
         $padraoBr = numfmt_create("pt_BR", NumberFormatter::CURRENCY);
         $valorPadraoParcela = numfmt_format_currency($padraoBr, $calcParcela, "BRL");
-        $valorPadraoTotal = numfmt_format_currency($padraoBr, $valorTotal, "BRL");
+        $valorPadraoTotal = numfmt_format_currency($padraoBr, $valor, "BRL");
     ?>
     <header>
         <h1>Recibo do Pedido</h1>

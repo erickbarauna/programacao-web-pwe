@@ -25,9 +25,6 @@
         $tracao = $dados -> TRACAO_PRODUTO;
     }
 
-    session_start();
-    $_SESSION['valorProduto'] = 55;
-
     // Formatando o $valor para o padrão monetário brasileiro
     $padraoBr = numfmt_create("pt_BR", NumberFormatter::CURRENCY);
     $valor = numfmt_format_currency($padraoBr, $valor, "BRL");

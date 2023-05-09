@@ -9,14 +9,19 @@
 </head>
 <body>
     <?php 
-        session_start();
-        $valorResgatado = $_SESSION['valorProduto'];
-        $valor = (float)$valorResgatado;
+        include "conexao.php";
+        $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
+        $tabela -> execute();
+
+        while ($dados = $tabela -> fetch(PDO::FETCH_OBJ)) $valor = $dados -> VALOR_PRODUTO;
+
         $padraoBr = numfmt_create("pt_BR", NumberFormatter::CURRENCY);
         $valorPadrao = numfmt_format_currency($padraoBr, $valor, "BRL");
 
         if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado'))
         {
+            session_start();
+
             $_SESSION['forma_pagamento'] = $_POST['formaPagamento'];
             $_SESSION['valor_parcela'] = $_POST['condicaoPagamento'];
 
