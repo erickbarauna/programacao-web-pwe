@@ -21,20 +21,8 @@
 
                 if ($Comando -> execute())
                 {
-                    if ($Comando -> rowCount() > 0)
-                    {
-                        echo("<script>alert('Cadastro realizado com sucesso!')</script>");
-
-                        session_start();
-                        $_SESSION['nomeCadastrado'] = $nome;
-                        $_SESSION['endCadastrado'] = $endereco;
-
-                        header('Location: pagamento.php');
-                    }
-                    else
-                    {
-                        echo("Erro ao tentar efetivar o contato!");
-                    }
+                    // Usuário direcionado à página login.php
+                    header('Location: login.php');
                 }
                 else
                 {
@@ -48,7 +36,16 @@
         }
         catch (PDOException $erro) 
         {
-            echo("Erro" . $erro -> getMessage());
+            // Captura o código de erro retornado pela exceção e exibi uma mensagem de erro personalizada com base no código
+            switch ($erro -> getCode()) {
+                case "23000":
+                $mensagem = "Este e-mail já está em uso. Por favor, tente novamente com um e-mail diferente.";
+                break;
+                default:
+                $mensagem = "Ocorreu um erro ao cadastar os dados. Por favor, tente novamente.";
+                break;
+            }
+            echo "<script>alert('$mensagem')</script>";
         }
     }
 ?>
@@ -88,7 +85,7 @@
                 <input type="password" name="senhaConfirm" id="isenhaConfirm" required>
             </div>
             <div>
-                <input type="submit" value="Confirmar Dados">
+                <input type="submit" value="Cadastrar Dados">
             </div>
         </form>
     </main>

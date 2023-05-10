@@ -1,10 +1,14 @@
 <?php 
     include "conexao.php";
+
+    // Seleciona todos os registros da tabela tb_produto
     $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
     $tabela -> execute();
 
+    // Armazena em um objeto chamado $dados
     while ($dados = $tabela -> fetch(PDO::FETCH_OBJ))
     {
+        // Cada registro é armazenado em variáveis separadas
         $foto = $dados -> FOTO_PRODUTO;
         $valor = $dados -> VALOR_PRODUTO;
         $fabricante = $dados -> FABRICANTE_PRODUTO;
@@ -77,6 +81,7 @@
         </div>
     </main>
     <script>
+        // Direciona o usuário para a página de login ao clicar no botão "COMPRAR"
         function Comprar()
         {
             window.location.href = 'login.php';

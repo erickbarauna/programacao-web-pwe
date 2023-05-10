@@ -1,6 +1,8 @@
 <?php 
     // Resgatando os dados do Usuário
     session_start();
+
+    // Seções criadas no arquivo login.php
     $email = $_SESSION['emailUsuario'];
     $senha = $_SESSION['senhaUsuario'];
 

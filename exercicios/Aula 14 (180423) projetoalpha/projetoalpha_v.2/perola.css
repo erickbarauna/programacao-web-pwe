@@ -138,6 +138,11 @@ form {
     border-radius: 10px;
 }
 
+.form-sem-estilo {
+    background-color:white;
+    padding: 0px;
+}
+
 form label {
     display: block;
     width: fit-content;
@@ -171,6 +176,10 @@ input[type=submit] {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.submit-sem-estilo[type=submit]{
+    margin: 10px 0px 0px 0px;
 }
   
 input[type=submit]:hover {
@@ -207,6 +216,22 @@ input[type=button], button {
 
 input[type=button]:hover, button:hover {
     background-color: #291f6c;
+}
+
+.button-tela-pedido[type=button] {
+    width: 100%;
+    background-color: #4CAF50;
+    font-size: 1em;
+    color: white;
+    padding: 15px 25px;
+    margin: 10px 0px 0px 0px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button-tela-pedido[type=button]:hover {
+    background-color: #45a049;
 }
 
 fieldset {

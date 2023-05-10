@@ -29,7 +29,8 @@
     </main>
     <?php 
         session_start();
-
+        
+        // Verifica se o usuário enviou o formulário
         if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado'))
         {
             $botao = $_POST ["botao"]; 
@@ -39,20 +40,27 @@
                 $email = $_POST['email'];
                 $senha = $_POST['senha'];
 
+                // Faz a conexão com o banco de dados e retorna um objeto PDO
                 include "conexao.php";
 
+                // Faz uma consulta na tabelan tb_usuario onde o EMAIL_USUARIO e SENHA_USUARIO correspondem aos parâmetros fornecidos
                 $comando = $conexao -> prepare("SELECT * FROM tb_usuario WHERE EMAIL_USUARIO = ? AND SENHA_USUARIO = ?");
 
+                // Utiliza o $email e $senha como parâmetros   
                 $comando -> bindParam(1, $email);
                 $comando -> bindParam(2, $senha);
 
+                // Executa o consulta
                 if ($comando -> execute())
                 {
+                    // Verifica se a consulta retornou um registro (linha) na tabela
                     if ($comando -> rowCount() > 0)
                     {
+                        // Seção usada no arquivo alterarUsuario.php
                         $_SESSION['emailUsuario'] = $email;
                         $_SESSION['senhaUsuario'] = $senha;
 
+                        // Obtem os resultados da consulta 
                         while ($dados = $comando -> fetch(PDO::FETCH_OBJ))
                         {
                             $nomeUsuario = $dados -> NOME_USUARIO;
@@ -63,6 +71,7 @@
                         $_SESSION['nomeCadastrado'] = $nomeUsuario;
                         $_SESSION['endCadastrado'] = $enderecoUsuario;
 
+                        // Usuário direcionado à página alterarusuario.php
                         header('location:alterarUsuario.php');
                     }
                     else
@@ -74,6 +83,7 @@
 
             if ($botao == "Cadastre-se")
             {
+                // Usuário direcionado à página cadastro.php
                 header('location:cadastro.php');
             }
         }

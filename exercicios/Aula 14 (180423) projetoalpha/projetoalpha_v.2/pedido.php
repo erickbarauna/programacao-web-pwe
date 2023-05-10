@@ -29,6 +29,43 @@
         $padraoBr = numfmt_create("pt_BR", NumberFormatter::CURRENCY);
         $valorPadraoParcela = numfmt_format_currency($padraoBr, $calcParcela, "BRL");
         $valorPadraoTotal = numfmt_format_currency($padraoBr, $valor, "BRL");
+
+        if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado'))
+        {
+            include "conexao.php";
+
+            try 
+            {
+                $Comando = $conexao -> prepare("INSERT INTO tb_pedido (NOME_USUARIO, ENDERECO_USUARIO, FORMA_PGTO, CONDICAO_PGTO, VALOR_PARCELA, VALOR_PRODUTO) VALUES (?, ?, ?, ?, ?, ?)");
+
+                $Comando -> bindParam(1, $nome);
+                $Comando -> bindParam(2, $endereco);
+                $Comando -> bindParam(3, $formaPagamento);
+                $Comando -> bindParam(4, $condicaoPagamento);
+                $Comando -> bindParam(5, $calcParcela);
+                $Comando -> bindParam(6, $valor);
+
+                if ($Comando -> execute())
+                {
+                    if ($Comando -> rowCount() > 0)
+                    {
+                        echo("<script>alert('Registro realizado com sucesso!')</script>");
+                    }
+                    else
+                    {
+                        echo("<script>alert('Erro ao efetivar o registro!')</script>");
+                    }
+                }
+                else
+                {
+                    throw new PDOException("Erro: Não foi possível executar a declaração sql.");
+                }
+            }
+            catch (PDOException $erro) 
+            {
+                echo("Erro" . $erro -> getMessage());
+            }
+        }
     ?>
     <header>
         <h1>Recibo do Pedido</h1>
@@ -54,55 +91,10 @@
             <p class="labelValor">Valor Total:</p>
             <p><?php echo $valorPadraoTotal;?></p>
         </div>
-        <div id="botoes">
-            <button onclick="RegistrarPedido()">Registrar Pedido</button>
-            <button onclick="">Refazer</button>
-        </div>
+        <form class="form-sem-estilo" action="pedido.php?valor=enviado" method="post">
+            <input type="submit" class="submit-sem-estilo" value="Registrar Pedido">
+            <input class="button-tela-pedido" type="button" value="Refazer" onclick="window.location.href='produto.php'">
+        </form>
     </section>
-    <script>
-        var i = 0;
-
-        function RegistrarPedido()
-        {
-            if (i == 0)
-            {
-                <?php 
-                    include "conexao.php";
-
-                    try 
-                    {
-                        $Comando = $conexao -> prepare("INSERT INTO tb_pedido (NOME_USUARIO, ENDERECO_USUARIO, FORMA_PGTO, CONDICAO_PGTO, VALOR_PARCELA, VALOR_PRODUTO) VALUES (?, ?, ?, ?, ?, ?)");
-        
-                        $Comando -> bindParam(1, $nome);
-                        $Comando -> bindParam(2, $endereco);
-                        $Comando -> bindParam(3, $formaPagamento);
-                        $Comando -> bindParam(4, $condicaoPagamento);
-                        $Comando -> bindParam(5, $calcParcela);
-                        $Comando -> bindParam(6, $valor);                    
-        
-                        if ($Comando -> execute())
-                        {
-                            if ($Comando -> rowCount() > 0)
-                            {
-                                echo("<script>i += 1; alert('Registro realizado com sucesso!');</script>");
-                            }
-                            else
-                            {
-                                echo("Erro ao tentar registrar o pedido!");
-                            }
-                        }
-                        else
-                        {
-                            throw new PDOException("Erro: Não foi possível executar a declaração sql.");
-                        }
-                    }
-                    catch (PDOException $erro) 
-                    {
-                        echo("Erro" . $erro -> getMessage());
-                    }    
-                ?>
-            }
-        }
-    </script>
 </body>
 </html>
