@@ -1,11 +1,12 @@
 <?php 
+    // Conecta o banco de dados
     include "conexao.php";
 
     // Seleciona todos os registros da tabela tb_produto
     $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
     $tabela -> execute();
 
-    // Armazena em um objeto chamado $dados
+    // Armazena todos os registros em um objeto $dados
     while ($dados = $tabela -> fetch(PDO::FETCH_OBJ))
     {
         // Cada registro é armazenado em variáveis separadas
@@ -29,7 +30,7 @@
         $tracao = $dados -> TRACAO_PRODUTO;
     }
 
-    // Formatando o $valor para o padrão monetário brasileiro
+    // Formata a variável $valor para o padrão monetário brasileiro
     $padraoBr = numfmt_create("pt_BR", NumberFormatter::CURRENCY);
     $valor = numfmt_format_currency($padraoBr, $valor, "BRL");
 ?>

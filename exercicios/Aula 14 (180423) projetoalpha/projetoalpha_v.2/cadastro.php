@@ -1,24 +1,32 @@
 <?php 
+    // Verifica se o usuário enviou o formulário
     if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado')) 
     {
+        // Resgata os valores enviados pelo formulário
         $nome = $_POST["nome"];
         $endereco = $_POST["end"];
         $email = $_POST["email"];
         $senha = $_POST["senha"];
 
+        // Conecta o banco de dados
         include "conexao.php";
 
+        // Envolve o código de inserção dos dados para tratar possíveis exceções
         try 
         {
+            // Verifica se as senhas são iguais
             if ($senha == $_POST["senhaConfirm"])
             {
+                // Chama os campos tabela tb_usuario e insere os dados com os parâmetros correspondentes
                 $Comando = $conexao -> prepare("INSERT INTO tb_usuario (NOME_USUARIO, ENDERECO_USUARIO, EMAIL_USUARIO, SENHA_USUARIO) VALUES (?, ?, ?, ?)");
 
+                // Utiliza as variavéis do formulário como parâmetros 
                 $Comando -> bindParam(1, $nome);
                 $Comando -> bindParam(2, $endereco);
                 $Comando -> bindParam(3, $email);
                 $Comando -> bindParam(4, $senha);
 
+                // Verifica se os dados foram inseridos  com sucesso
                 if ($Comando -> execute())
                 {
                     // Usuário direcionado à página login.php

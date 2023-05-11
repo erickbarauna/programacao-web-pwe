@@ -9,22 +9,30 @@
 </head>
 <body>
     <?php 
+        // Conecta o banco de dados
         include "conexao.php";
+
+        // Busca todos os campos do produto na tabela tb_produto
         $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
         $tabela -> execute();
 
+        // Percorre os resultados com o método "fetch" do objeto armzenando o valor do produto em uma variável $valor
         while ($dados = $tabela -> fetch(PDO::FETCH_OBJ)) $valor = $dados -> VALOR_PRODUTO;
 
+        // Formata a variável $valor para o padrão monetário brasileiro
         $padraoBr = numfmt_create("pt_BR", NumberFormatter::CURRENCY);
         $valorPadrao = numfmt_format_currency($padraoBr, $valor, "BRL");
 
+        // Verifica se o usuário enviou o formulário
         if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado'))
         {
             session_start();
 
+            // Seções usadas na página pedido.php
             $_SESSION['forma_pagamento'] = $_POST['formaPagamento'];
             $_SESSION['valor_parcela'] = $_POST['condicaoPagamento'];
 
+            // Usuário direcionado à página pedido.php
             header("Location: pedido.php");
         } 
     ?>
@@ -72,7 +80,7 @@
             </div>
         </form>
     </section>
-    <script>
+    <script> 
         var valorParcela = document.getElementById("Parcela");
 
         function CondicaoPagamento()
@@ -85,21 +93,36 @@
 
             if (formaPagamento === "Boleto") 
             {
+                // Percorre as opções da parcela de trás para frente para determinar o número de opções disponíveis, o loop continua até que o índice alcance o valor zero 
                 for (var i = condicaoPagamento.options.length - 1; i >= 0; i--) {
+
+                    // Cria uma nova variável chamada option e a define como a opção atual do loop for a cada iteração, usando a propriedade options do elemento condicaoPagamento.
                     var option = condicaoPagamento.options[i];
+
+                    // Verifica se o valor da opção atual é diferente de "1", se for diferente, a propriedade disabled da opção é definida como true, desabilitando a opção no formulário
                     if (option.value !== "1") {option.disabled = true;}
+
+                    // Caso contrário, a propriedade disabled é definida como false, habilitando a opção no formulário.
                     else { option.disabled = false;}
                 }
+
+                // Atualiza o valor da parcela na página HTML
                 valorParcela.innerHTML = "<?php echo $valorPadrao;?>";
             } 
             else if (formaPagamento === "Cartao") 
             {
+                // Este bloco for percorre todas as opções do elemento HTML condicaoPagamento, começando da última opção e indo até a primeira, a variável i é o índice da opção atual no loop
                 for (var i = condicaoPagamento.options.length - 1; i >= 0; i--) {
                     var option = condicaoPagamento.options[i];
+
+                    // Verifica se o valor da opção atual é diferente de "0", se for, a propriedade disabled da opção é definida como false, habilitando a opção no formulário.
                     if (option.value !== "0") {option.disabled = false;}
+
+                    // Caso contrário, a propriedade disabled é definida como true, desabilitando a opção no formulário.
                     else { option.disabled = true;}
                 }
             }
+            // Se nenhuma opção for selecionada na forma de pagamento, a opção das parcelas é desabilitada
             else if (formaPagamento === "")
             {
                 condicaoPagamento.value = "0";
@@ -111,11 +134,19 @@
         var select = document.getElementById("icondPagamento");
 
         select.onchange = function() {
+            // Esta linha de código obtém o valor da opção selecionada no elemento HTML
             var valorSelecionado = parseInt(select.value);
+
+            // Esta linha de código obtém o valor da variável PHP            
             var valorTotal = parseInt("<?php echo $valor;?>");
+
+            // Esta linha de código calcula o valor da parcela, dividindo o valor total da compra pelo número de parcelas selecionado, o resultado é armazenado na variável resultado.
             resultado = valorTotal / valorSelecionado;
+
+            // Esta linha de código formata o valor da parcela como uma string no formato de moeda brasileira (BRL)
             resultadoFormatado = resultado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
+            // Esta linha de código atualiza o conteúdo de um elemento HTML
             valorParcela.innerHTML = resultadoFormatado;
         }
     </script>

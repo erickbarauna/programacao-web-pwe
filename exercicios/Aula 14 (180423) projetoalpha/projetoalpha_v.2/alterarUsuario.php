@@ -1,23 +1,30 @@
 <?php 
-    // Resgatando os dados do Usuário
     session_start();
 
     // Seções criadas no arquivo login.php
     $email = $_SESSION['emailUsuario'];
     $senha = $_SESSION['senhaUsuario'];
 
+    // Conecta o banco de dados
     include "conexao.php";
+   
+    // Faz a mesma consulta na tabela tb_usuario que é feita na página login.php
     $comando = $conexao -> prepare("SELECT * FROM tb_usuario WHERE EMAIL_USUARIO = ? AND SENHA_USUARIO = ?");
     
+    // Utiliza os mesmos parâmetros $email e $senha
     $comando -> bindParam(1, $email);
     $comando -> bindParam(2, $senha);
 
+    // Executa a consulta
     if ($comando -> execute())
     {
+        // Verifica se a consulta retornou um registro (linha) na tabela
         if ($comando -> rowCount() > 0)
         {
+            // Armazena todos os registros em um objeto $dados
             while ($dados = $comando -> fetch(PDO::FETCH_OBJ))
             {
+                // Cada registro é armazenado em variáveis separadas
                 $nomeUsuario = $dados -> NOME_USUARIO;
                 $enderecoUsuario = $dados -> ENDERECO_USUARIO;
                 $emailUsuario = $dados -> EMAIL_USUARIO;
@@ -25,21 +32,26 @@
             }
         }
     }
-    //
-
+    
+    // Verifica se o usuário enviou o formulário
     if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado'))
     {
+        // Resgata os valores enviados pelo formulário
         $nomeNovo = $_POST['nome'];
         $endNovo = $_POST['end'];
         $emailNovo = $_POST['email'];
         $senhaNovo = $_POST['senha'];
 
+        // Verifica se as senhas são iguais
         if ($senhaNovo == $_POST['senhaConfirm'])
         {
+            // Conecta o banco de dados
             include "conexao.php";
 
+            // Faz uma consulta na tabelan tb_usuario onde o EMAIL_USUARIO e SENHA_USUARIO correspondem aos parâmetros fornecidos e atualiza os todos os valores do usuário
             $comando = $conexao->prepare("UPDATE tb_usuario SET NOME_USUARIO = ?, ENDERECO_USUARIO = ?, EMAIL_USUARIO = ?, SENHA_USUARIO = ? WHERE EMAIL_USUARIO = ? AND SENHA_USUARIO = ?");
 
+            // Atualiza todos os dados do usuário seguindo os parâmetros abaixo
             $comando -> bindParam(1, $nomeNovo);
             $comando -> bindParam(2, $endNovo);
             $comando -> bindParam(3, $emailNovo);
@@ -47,9 +59,14 @@
             $comando -> bindParam(5, $email);
             $comando -> bindParam(6, $senha);
 
+            // Verifica se os dados foram atualizados com sucesso
             if ($comando -> execute()) {
+
+                // Seções usadas na página pedido.php
                 $_SESSION['nomeCadastrado'] = $nomeNovo;
                 $_SESSION['endCadastrado'] = $endNovo;
+
+                // Usuário direcionado à página pagamento.php
                 header('Location: pagamento.php');
             } else {
                 echo "<script>alert('Erro ao atualizar os dados!')</script>";

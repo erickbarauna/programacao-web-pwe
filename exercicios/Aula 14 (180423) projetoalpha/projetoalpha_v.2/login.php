@@ -33,6 +33,7 @@
         // Verifica se o usuário enviou o formulário
         if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado'))
         {
+            // Resgata o valor do botão que o usuário clicou
             $botao = $_POST ["botao"]; 
             
             if ($botao == "Login")
@@ -50,7 +51,7 @@
                 $comando -> bindParam(1, $email);
                 $comando -> bindParam(2, $senha);
 
-                // Executa o consulta
+                // Executa a consulta
                 if ($comando -> execute())
                 {
                     // Verifica se a consulta retornou um registro (linha) na tabela

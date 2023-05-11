@@ -14,6 +14,7 @@
         $nome = $_SESSION['nomeCadastrado'];
         $endereco = $_SESSION['endCadastrado'];
 
+        // Conecta o banco de dados
         include 'conexao.php';
         
         $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
