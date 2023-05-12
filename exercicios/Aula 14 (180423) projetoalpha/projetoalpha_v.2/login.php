@@ -38,6 +38,7 @@
             
             if ($botao == "Login")
             {
+                // Resgata os valores enviados pelo formulário
                 $email = $_POST['email'];
                 $senha = $_POST['senha'];
 

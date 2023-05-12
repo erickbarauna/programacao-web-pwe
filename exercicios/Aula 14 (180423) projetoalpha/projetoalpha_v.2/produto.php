@@ -4,6 +4,8 @@
 
     // Seleciona todos os registros da tabela tb_produto
     $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
+
+    // Executa o comando
     $tabela -> execute();
 
     // Armazena todos os registros em um objeto $dados

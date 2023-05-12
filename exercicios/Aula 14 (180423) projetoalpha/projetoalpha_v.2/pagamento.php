@@ -14,6 +14,8 @@
 
         // Busca todos os campos do produto na tabela tb_produto
         $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
+
+        // Executa o comando
         $tabela -> execute();
 
         // Percorre os resultados com o método "fetch" do objeto armzenando o valor do produto em uma variável $valor
