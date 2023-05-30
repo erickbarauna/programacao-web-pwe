@@ -2,6 +2,8 @@
     // Conecta o banco de dados
     include "conexao.php";
 
+    session_start();
+
     // Seleciona todos os registros da tabela tb_produto
     $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
 
@@ -39,7 +41,7 @@
     </header>
     <main>
         <div class="vitrine">
-            <div class="produto-vitrine">
+            <div class="produto-vitrine" id="produto0">
                  <div class="titulo">
                     <h1>
                         <?php echo($produtos[0]['fabricante']);?>
@@ -50,7 +52,7 @@
                 </div>
                 <img src="<?php echo($produtos[0]['foto']);?>" alt="">
             </div>
-            <div class="produto-vitrine">
+            <div class="produto-vitrine" id="produto1">
                 <div class="titulo">
                     <h1>
                         <?php echo($produtos[1]['fabricante']);?>
@@ -64,4 +66,22 @@
         </div>
         <p class="msg"><i>*Clique no Produto</i></p>
     </main>
+    <script>
+    var produtos = <?php echo json_encode($produtos); ?>;
+
+    // Adiciona o evento de clique a cada elemento
+    for (let i = 0; i < produtos.length; i++) {
+        const produto = produtos[i];
+        const elementoProduto = document.getElementById('produto' + i);
+        elementoProduto.addEventListener('click', function() {
+            // Obtém os dados do produto selecionado
+            const modelo = produto.modelo;
+
+            // Redireciona o usuário para a página "produto.php" com os parâmetros na URL
+            window.location.href = 'produto.php?modelo=' + encodeURIComponent(modelo);
+        });
+    }
+</script>
+
 </body>
+</html>
