@@ -2,8 +2,19 @@
     // Conecta o banco de dados
     include "conexao.php";
 
-    // Seleciona todos os registros da tabela tb_produto
-    $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
+    // Resgata pela URL o 'modelo' do produto selecionado pelo usuário 
+    $modeloReferencia = $_GET['modelo'];
+
+    session_start();
+
+    // Manda o 'modelo' do produto para uma seção que será utilizada na página pagamento.php
+    $_SESSION['modeloReferencia'] = $_GET['modelo'];
+
+    // Seleciona os dados do produto 
+    $tabela = $conexao -> prepare("SELECT * FROM tb_produto WHERE MODELO_PRODUTO = ?");
+    
+    // Utiliza o 'modelo' recebido da página vitrine.php como parâmetro
+    $tabela -> bindParam(1, $modeloReferencia);
 
     // Executa o comando
     $tabela -> execute();
@@ -51,9 +62,7 @@
     </header>
     <main>
         <div class="produto">
-            <div class="imagem">
-                <img src="<?php echo($foto);?>" alt="Dodge Viper SRT V10">
-            </div>
+            <img src="<?php echo($foto);?>" alt="Dodge Viper SRT V10">
             <div class="desc">
                 <div class="titulo">
                     <h1><?php echo($fabricante);?></h1><strong><?php echo($modelo);?></strong>

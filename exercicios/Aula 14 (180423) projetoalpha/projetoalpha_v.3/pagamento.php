@@ -5,15 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela Pagamento</title>
-    <link rel="stylesheet" href="perola.css">
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
     <?php 
         // Conecta o banco de dados
         include "conexao.php";
 
+        session_start();
+
+        // Resgata o 'modelo' do produto selecionado na página vitrine.php
+        $modelo = $_SESSION['modeloReferencia'];
+
         // Busca todos os campos do produto na tabela tb_produto
-        $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
+        $tabela = $conexao -> prepare("SELECT * FROM tb_produto WHERE MODELO_PRODUTO = ?");
+
+         // Utiliza o 'modelo' recebido da página vitrine.php como parâmetro
+        $tabela -> bindParam(1, $modelo);
 
         // Executa o comando
         $tabela -> execute();

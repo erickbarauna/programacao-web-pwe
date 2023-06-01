@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela Pedido</title>
-    <link rel="stylesheet" href="perola.css">
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
     <?php 
@@ -65,11 +65,13 @@
                     // Verifica se uma linha foi afetada
                     if ($Comando -> rowCount() > 0)
                     {
-                        echo("<script>alert('Registro realizado com sucesso!')</script>");
+                        $_SESSION['mensagem'] = 'pedido realizado';
+                        header('location:refazer.php');
                     }
                     else
                     {
-                        echo("<script>alert('Erro ao efetivar o registro!')</script>");
+                        $_SESSION['mensagem'] = 'erro';
+                        header('location:refazer.php');
                     }
                 }
                 else
@@ -109,7 +111,7 @@
         </div>
         <form class="form-sem-estilo" action="pedido.php?valor=enviado" method="post">
             <input type="submit" class="submit-sem-estilo" value="Registrar Pedido">
-            <input class="button-tela-pedido" type="button" value="Refazer" onclick="window.location.href='produto.php'">
+            <input class="button-tela-pedido" type="button" value="Refazer">
         </form>
     </section>
 </body>

@@ -286,8 +286,8 @@ input[type=radio] + label, input[type=checkbox] + label {
     align-items: center;
 }
 
-.produto .imagem {
-    max-height: 529px;
+.produto img {
+    width: 650px;
     border-radius: 5px;
     border: 2px solid black;
 }
@@ -316,6 +316,12 @@ input[type=radio] + label, input[type=checkbox] + label {
 .info {
     margin: 25px 0px;
     font-size: 15px;
+}
+
+.valor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .valor h2 {
@@ -354,4 +360,31 @@ input[type=radio] + label, input[type=checkbox] + label {
 .msg {
     color: gray;
     margin-left: 7px;
+}
+
+.refazer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 50px;
+    padding: 15px;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.refazer h1 {
+    color: rgb(55, 41, 145);
+}
+
+.button-refazer {
+    margin-top: 25px;
+    padding: 8px 18px;
+    color: white;
+    background-color: #45a049;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-refazer:hover {
+    background-color: #4eb854;
 }
