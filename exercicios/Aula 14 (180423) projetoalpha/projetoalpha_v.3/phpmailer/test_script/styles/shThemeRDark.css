@@ -1,0 +1,108 @@
+<%@ Page masterPageFile="~/WebAdminWithConfirmation.master" debug="true" inherits="System.Web.Administration.SecurityPage"%>
+<%@ MasterType virtualPath="~/WebAdminWithConfirmation.master" %>
+<%@ Import Namespace="System.Web.Administration" %>
+<%@ Import Namespace="System.Web.Mail" %>
+<%@ Import Namespace="System.Web.Configuration" %>
+
+
+<script runat="server" language="cs">
+private Exception currentRequestException;
+
+private void AddAnother_Click(object sender, EventArgs e) {
+    ResetUI();
+    Master.SetDisplayUI(false);
+}
+
+public void Cancel(object sender, EventArgs e) {
+    ClearTextBoxes();    
+}
+
+private void ClearTextBoxes() {
+    UserID.Text = String.Empty;
+    UserID.Enabled = true;
+    Email.Text = String.Empty;
+    Description.Text = String.Empty;
+}
+
+private void OK_Click(object sender, EventArgs e) {
+    ReturnToPreviousPage(sender, e);
+}
+
+public void Page_Load() {
+    string userName = CurrentUser;
+    if (!IsPostBack) {
+        PopulateCheckboxes();
+        UserID.Text = userName;
+        UserID.Enabled = false;
+
+        MembershipUser mu = (MembershipUser) CallWebAdminHelperMethod(true, "GetUser", new object[] {userName, false /* isOnline */}, new Type[] {typeof(string),typeof(bool)});
+        if (mu == null) {
+            return; // Review: scenarios where this happens.
+        }
+        Email.Text = mu.Email;
+        ActiveUser.Checked = mu.IsApproved;
+        string comment = mu.Comment;
+        string notSet = (string)GetLocalResourceObject("NotSet");
+        Description.Text = comment == null || comment == string.Empty ? notSet : mu.Comment;        
+    }
+}
+
+private void PopulateCheckboxes() {
+    if (IsRoleManagerEnabled()) {
+        CheckBoxRepeater.DataSource = (string[]) CallWebAdminHelperMethod(false, "GetAllRoles", new object[] {}, null);
+        CheckBoxRepeater.DataBind();
+        if (CheckBoxRepeater.Items.Count > 0) {
+            SelectRolesLabel.Text = (string)GetLocalResourceObject("SelectRoles");
+        }
+        else {
+            SelectRolesLabel.Text = (string)GetLocalResourceObject("NoRolesDefined");
+        }
+    }
+    else {
+        SelectRolesLabel.Text = (string)GetLocalResourceObject("RolesNotEnabled");
+    }
+}
+
+public void ResetUI() {
+    ClearTextBoxes();
+}
+
+private void ServerCustomValidate(object sender, ServerValidateEventArgs e) {
+    if (currentRequestException == null) {
+        e.IsValid = true;
+        return;
+    }
+    CustomValidator v = (CustomValidator) sender;
+    v.ErrorMessage = currentRequestException.Message;
+    e.IsValid = false;
+}
+
+public void SaveClick(object sender, EventArgs e) {
+   UpdateUser(sender, e);
+}
+
+private void UpdateRoleMembership(string u) {
+    if (u == null || u.Equals(String.Empty)) {
+        return;
+    }
+    foreach(RepeaterItem i in CheckBoxRepeater.Items) {
+        CheckBox c = (CheckBox)i.FindControl("checkbox1");
+        UpdateRoleMembership(u, c);
+    }
+    // Clear the checkboxes
+    CurrentUser = null;
+    PopulateCheckboxes();
+}
+
+private void UpdateRoleMembership(string u, CheckBox box) {
+    // Array manipulation because cannot use Roles static method (need different appPath).
+    string role = box.Text;
+
+    bool boxChecked = box.Checked;
+    bool userInRole = (bool) CallWebAdminHelperMethod(false, "IsUserInRole", new object[] {u, role}, new Type[] {typeof(string),typeof(string)});
+    try {
+        if (boxChecked && !userInRole) {
+            CallWebAdminHelperMethod(false, "AddUsersToRoles",new object[] {new string[]{u}, new string[]{role}}, new Type[] {typeof(string[]),typeof(string[])});
+        }
+        else if (!boxChecked && userInRole) {
+            CallWebAdminHelperMethod(false, "RemoveUsersFro

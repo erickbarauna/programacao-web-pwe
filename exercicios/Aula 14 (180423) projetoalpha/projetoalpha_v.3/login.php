@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela Login</title>
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
     <header>
@@ -22,11 +22,30 @@
                 <input type="password" name="senha" id="isenha" placeholder="Digite sua senha">
             </div>
             <div>
+                <p class="esqueci-senha" onclick="EsqueciSenha()">Esqueci a senha</p>
+            </div>
+            <div>
                 <input type="submit" value="Cadastre-se" name="botao">
                 <input type="submit" value="Login" name="botao">
             </div>
         </form>
     </main>
+    <section class="popup-email">
+        <div class="popup-email-content">
+            <form action="enviarSenha.php?email=enviado" method="$_POST">
+                <div>
+                    <label for="iemailRecuperar">E-mail</label>
+                    <input type="email" name="emailRecuperar" id="iemailRecuperar">
+                </div>
+                <div>
+                    <input type="submit" value="Enviar">
+                </div>
+                <div>
+                    <p>Digite o E-mail que deseja recuperar a senha, e enviaremos a senha para ele</p>
+                </div>
+            </form>
+        </div>
+    </section>
     <?php 
         session_start();
         
@@ -90,5 +109,24 @@
             }
         }
     ?>
+    <script>
+        function EsqueciSenha()
+        {
+            var email = prompt("Digite o E-mail que deseja recuperar a senha:\n\nObs: Enviaremos a senha para ele.\n");
+
+            // Criar objeto FormData e adicionar o valor do email
+            var formData = new FormData();
+            formData.append('email', email);
+
+            // Fazer a requisição para o servidor PHP
+            fetch('enviarSenha.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(function(response) {
+                window.location.href = 'enviarSenha.php';
+            });
+        }
+    </script>
 </body>
 </html>

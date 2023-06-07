@@ -2,7 +2,7 @@
     // Conecta o banco de dados
     include "conexao.php";
 
-    // Resgata pela URL o 'modelo' do produto selecionado pelo usuário 
+    // Resgata pela URL o 'modelo' do produto selecionado pelo usuário na tela vitrine.php
     $modeloReferencia = $_GET['modelo'];
 
     session_start();

@@ -62,16 +62,17 @@ h2, h3, h4 {
 }
 
 a {
-    color: white;
-    padding: 0 3px;
-    font-weight: 600;
+    font-size: 13.5px;
     text-decoration: none;
-    border-bottom: .5px dotted #372991;
+    border-bottom: .5px solid #372991;
+    padding: 2px;
+    transition: 0.1s;
+    border-radius: 2px;
 }
 
 a:hover {
     color: white;
-    border-bottom: 1px solid #372991;
+    background-color: #9c8ef8;
 }
 
 /* TABELAS E LISTAS */
@@ -388,3 +389,37 @@ input[type=radio] + label, input[type=checkbox] + label {
 .button-refazer:hover {
     background-color: #4eb854;
 }
+
+.esqueci-senha {
+    width: 115px;
+    display: block;
+    font-size: 13.5px;
+    text-decoration: none;
+    border-bottom: .5px solid #372991;
+    padding: 2px;
+    transition: 0.1s;
+    cursor: pointer;
+}
+
+.esqueci-senha:hover {
+    color: white;
+    background-color: #9c8ef8;
+    border-radius: 2px;
+}
+
+.popup-email {
+    display: flex;
+    justify-content: center; /* Alinhamento horizontal */
+    align-items: center; /* Alinhamento vertical */
+    position: absolute;
+    top: 13%;
+}
+  
+  .popup-email-content {
+    width: 300px;
+    height: 300px;
+    background-color: white;
+    padding: 5px;
+    border-radius: 10px;
+    text-align: center;
+  }
