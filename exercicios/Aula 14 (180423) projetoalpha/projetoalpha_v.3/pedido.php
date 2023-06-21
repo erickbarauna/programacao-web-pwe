@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela Pedido</title>
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="estila.css">
 </head>
 <body>
     <?php 
@@ -15,17 +15,27 @@
         $nome = $_SESSION['nomeCadastrado'];
         $endereco = $_SESSION['endCadastrado'];
 
+        // Modelo do produto escolhido na tela vitrine.php
+        $modelo = $_SESSION['modeloReferencia'];
+        
+
         // Conecta o banco de dados
         include 'conexao.php';
         
-        // Seleciona todas as colunas da tabela tb_produto
-        $tabela = $conexao -> prepare("SELECT * FROM tb_produto");
+        // Seleciona os dados do produto 
+        $tabela = $conexao -> prepare("SELECT * FROM tb_produto WHERE MODELO_PRODUTO = ?");
+        
+        // Utiliza o 'modelo' recebido da página vitrine.php como parâmetro
+        $tabela -> bindParam(1, $modelo);
 
         // Executa o comando
         $tabela -> execute();
 
         // Percorre todos os resultados da consulta, e armazena o valor da coluna 'VALOR_PRODUTO' na variável $valor
-        while ($dados = $tabela -> fetch(PDO::FETCH_OBJ)) $valor = $dados -> VALOR_PRODUTO;
+        while ($dados = $tabela -> fetch(PDO::FETCH_OBJ))
+        {
+            $valor = $dados -> VALOR_PRODUTO;
+        } 
 
         // Seções criadas na página pagamento.php
         $condicaoPagamento = $_SESSION['forma_pagamento'];
@@ -45,44 +55,21 @@
             // Conecta o banco  de dados
             include "conexao.php";
 
-            // Envolve o código de inserção dos dados para tratar possíveis exceções
-            try 
-            {
-                // Insere os parâmetros nas colunas da tabela 
-                $Comando = $conexao -> prepare("INSERT INTO tb_pedido (NOME_USUARIO, ENDERECO_USUARIO, FORMA_PGTO, CONDICAO_PGTO, VALOR_PARCELA, VALOR_PRODUTO) VALUES (?, ?, ?, ?, ?, ?)");
+            // Insere os parâmetros nas colunas da tabela 
+            $Comando = $conexao -> prepare("INSERT INTO tb_pedido (NOME_USUARIO, ENDERECO_USUARIO, FORMA_PGTO, CONDICAO_PGTO, VALOR_PARCELA, VALOR_PRODUTO) VALUES (?, ?, ?, ?, ?, ?)");
 
-                // Parâmetros resgatados durando todo o processo de compra
-                $Comando -> bindParam(1, $nome);
-                $Comando -> bindParam(2, $endereco);
-                $Comando -> bindParam(3, $formaPagamento);
-                $Comando -> bindParam(4, $condicaoPagamento);
-                $Comando -> bindParam(5, $calcParcela);
-                $Comando -> bindParam(6, $valor);
+            // Parâmetros resgatados durando todo o processo de compra
+            $Comando -> bindParam(1, $nome);
+            $Comando -> bindParam(2, $endereco);
+            $Comando -> bindParam(3, $formaPagamento);
+            $Comando -> bindParam(4, $condicaoPagamento);
+            $Comando -> bindParam(5, $calcParcela);
+            $Comando -> bindParam(6, $valor);
 
-                // Verifica se o comando foi executado
-                if ($Comando -> execute())
-                {
-                    // Verifica se uma linha foi afetada
-                    if ($Comando -> rowCount() > 0)
-                    {
-                        $_SESSION['mensagem'] = 'pedido realizado';
-                        header('location:refazer.php');
-                    }
-                    else
-                    {
-                        $_SESSION['mensagem'] = 'erro';
-                        header('location:refazer.php');
-                    }
-                }
-                else
-                {
-                    throw new PDOException("Erro: Não foi possível executar a declaração sql.");
-                }
-            }
-            catch (PDOException $erro) 
-            {
-                echo("Erro" . $erro -> getMessage());
-            }
+            // Executa o comando
+            $Comando -> execute();
+        
+            header('location: gerenciarPedido.php');        
         }
     ?>
     <header>
@@ -111,7 +98,6 @@
         </div>
         <form class="form-sem-estilo" action="pedido.php?valor=enviado" method="post">
             <input type="submit" class="submit-sem-estilo" value="Registrar Pedido">
-            <input class="button-tela-pedido" type="button" value="Refazer">
         </form>
     </section>
 </body>

@@ -17,7 +17,6 @@
     while ($dados = $tabela -> fetch(PDO::FETCH_OBJ))
     {
         $produto = array(
-            // Cada registro é armazenado em variáveis separadas
             'foto' => $dados -> FOTO_PRODUTO,
             'fabricante' => $dados -> FABRICANTE_PRODUTO,
             'modelo' => $dados -> MODELO_PRODUTO
@@ -33,7 +32,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela Vitrine</title>
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="estila.css">
 </head>
 <body>
     <header>

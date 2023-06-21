@@ -7,7 +7,7 @@
 
     session_start();
 
-    // Manda o 'modelo' do produto para uma seção que será utilizada na página pagamento.php
+    // Manda o 'modelo' do produto para uma seção que será utilizada na página pagamento.php e pedido.php
     $_SESSION['modeloReferencia'] = $_GET['modelo'];
 
     // Seleciona os dados do produto 
@@ -54,7 +54,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela Produto</title>
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="estila.css">
 </head>
 <body>
     <header>

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela Login</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="estila.css">
 </head>
 <body>
     <header>
@@ -21,8 +21,8 @@
                 <label for="isenha">Senha</label>
                 <input type="password" name="senha" id="isenha" placeholder="Digite sua senha">
             </div>
-            <div>
-                <p class="esqueci-senha" onclick="EsqueciSenha()">Esqueci a senha</p>
+            <div class="esqueci-senha" onclick="esqueciSenha()">
+                Esqueci a senha
             </div>
             <div>
                 <input type="submit" value="Cadastre-se" name="botao">
@@ -30,9 +30,9 @@
             </div>
         </form>
     </main>
-    <section class="popup-email">
+    <section class="popup-email" id="ipopup-email">
         <div class="popup-email-content">
-            <form action="enviarSenha.php?email=enviado" method="$_POST">
+            <form action="enviarSenha.php?email=enviado" method="POST">
                 <div>
                     <label for="iemailRecuperar">E-mail</label>
                     <input type="email" name="emailRecuperar" id="iemailRecuperar">
@@ -53,7 +53,7 @@
         if (isset($_REQUEST['valor']) and ($_REQUEST['valor'] == 'enviado'))
         {
             // Resgata o valor do botão que o usuário clicou
-            $botao = $_POST ["botao"]; 
+            $botao = $_POST["botao"]; 
             
             if ($botao == "Login")
             {
@@ -88,7 +88,7 @@
                             $enderecoUsuario = $dados -> ENDERECO_USUARIO;
                         }
 
-                        // Seção usada no arquivo pedido.php
+                        // Seção usada na tela  pedido.php e gerenciarPedido.php
                         $_SESSION['nomeCadastrado'] = $nomeUsuario;
                         $_SESSION['endCadastrado'] = $enderecoUsuario;
 
@@ -108,24 +108,16 @@
                 header('location:cadastro.php');
             }
         }
+
+        // if (isset($_REQUEST['email']) and ($_REQUEST['email'] == 'enviado')) 
+        // {
+        //     $_SESSION['email'] = $_POST['emailRecuperar'];
+        // }
     ?>
     <script>
-        function EsqueciSenha()
+        function esqueciSenha()
         {
-            var email = prompt("Digite o E-mail que deseja recuperar a senha:\n\nObs: Enviaremos a senha para ele.\n");
-
-            // Criar objeto FormData e adicionar o valor do email
-            var formData = new FormData();
-            formData.append('email', email);
-
-            // Fazer a requisição para o servidor PHP
-            fetch('enviarSenha.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(function(response) {
-                window.location.href = 'enviarSenha.php';
-            });
+            document.getElementById('ipopup-email').style.display = "flex";
         }
     </script>
 </body>

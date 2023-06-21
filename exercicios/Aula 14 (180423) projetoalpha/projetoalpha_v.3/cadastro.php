@@ -64,7 +64,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela Cadastro</title>
-    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="estila.css">
 </head>
 <body>
     <header>
