@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela Login</title>
-    <link rel="stylesheet" href="estila.css">
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
     <header>
-        <h1>Tela Login</h1>
+        <h1>Login</h1>
     </header>
     <main>
         <form action="login.php?valor=enviado" method="POST">
@@ -21,8 +21,10 @@
                 <label for="isenha">Senha</label>
                 <input type="password" name="senha" id="isenha" placeholder="Digite sua senha">
             </div>
-            <div class="esqueci-senha" onclick="esqueciSenha()">
-                Esqueci a senha
+            <div class="esqueci-senha">
+                <div onclick="esqueciSenha()">
+                    Esqueci a senha
+                </div>
             </div>
             <div>
                 <input type="submit" value="Cadastre-se" name="botao">
@@ -41,7 +43,7 @@
                     <input type="submit" value="Enviar">
                 </div>
                 <div>
-                    <p>Digite o E-mail que deseja recuperar a senha, e enviaremos a senha para ele</p>
+                    <p>Para que tudo de certo o E-mail cadastrado no banco deve ser um E-mail real, caso contrário a senha não será enviada!</p>
                 </div>
             </form>
         </div>
@@ -108,11 +110,6 @@
                 header('location:cadastro.php');
             }
         }
-
-        // if (isset($_REQUEST['email']) and ($_REQUEST['email'] == 'enviado')) 
-        // {
-        //     $_SESSION['email'] = $_POST['emailRecuperar'];
-        // }
     ?>
     <script>
         function esqueciSenha()

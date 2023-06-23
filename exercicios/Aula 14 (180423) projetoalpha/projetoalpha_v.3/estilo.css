@@ -80,18 +80,19 @@ table {
     min-width: 400px;
     border-spacing: 0px;
     border: 0.5px solid #372991;
-    margin: 10px auto;
+    margin: 5px auto;
+    text-align: center;
 }
 
 table th {
     background-color: #372991;
     color: white;
-    padding: 5px;
-    text-align: left;
+    padding: 10px;
+    text-align: center;
 }
 
 table td {
-    padding: 5px;
+    padding: 5px 10px;
 }
 
 table tr {
@@ -362,33 +363,6 @@ input[type=radio] + label, input[type=checkbox] + label {
     margin-left: 7px;
 }
 
-.refazer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 50px;
-    padding: 15px;
-    border-radius: 15px;
-    background-color: white;
-}
-
-.refazer h1 {
-    color: rgb(55, 41, 145);
-}
-
-.button-refazer {
-    margin-top: 25px;
-    padding: 8px 18px;
-    color: white;
-    background-color: #45a049;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.button-refazer:hover {
-    background-color: #4eb854;
-}
-
 .popup-email {
     display: none;
     max-width: 500px;
@@ -404,12 +378,12 @@ input[type=radio] + label, input[type=checkbox] + label {
     display: flex;
     justify-content: end;
     font-size: 14px;
-    cursor: pointer;
 }
 
-.esqueci-senha:hover {
+.esqueci-senha div:hover {
     text-decoration: underline;
     color: #4eb854;
+    cursor: pointer;
 }
 
 .container-enviarEmail {

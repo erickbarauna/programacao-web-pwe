@@ -32,11 +32,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela Vitrine</title>
-    <link rel="stylesheet" href="estila.css">
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
     <header>
-        <h1>Tela Vitrine</h1>
+        <h1>Vitrine</h1>
     </header>
     <main>
         <div class="vitrine">

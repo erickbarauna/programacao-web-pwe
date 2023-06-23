@@ -26,10 +26,10 @@
         $pedido = array(
             'nome' => $dados -> NOME_USUARIO,
             'endereco' => $dados -> ENDERECO_USUARIO,
-            'formaPagamento' => $dados -> FORMA_PGTO,
             'condicaoPagamento' => $dados -> CONDICAO_PGTO,
+            'formaPagamento' => $dados -> FORMA_PGTO.' vez(es)',
             'valorParcela' => $dados -> VALOR_PARCELA,
-            'valorProduto' => $dados -> VALOR_PRODUTO
+            'valorProduto' => $dados -> VALOR_PRODUTO,
         );
         
         array_push($pedidos, $pedido);
@@ -68,15 +68,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Pedido</title>
-    <link rel="stylesheet" href="estila.css">
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
     <header>
-        <h1>Tela Gerênciar Pedido</h1>
+        <h1>Gerênciar Pedido</h1>
     </header>
     <main>
         <form action="gerenciarPedido.php?valor=enviado" method="POST">
-            <p>A alteração é opcional</p>
+            <p>A alteração é opcional*</p>
             <div>
                 <label for="inome">Nome</label>
                 <input type="text" name="nome" id="inome" required value="<?php echo($nome);?>">
@@ -96,8 +96,8 @@
                     <tr>
                         <th>Nome</th>
                         <th>Endereço</th>
-                        <th>Forma de Pagamento</th>
                         <th>Condição de Pagamento</th>
+                        <th>Forma de Pagamento</th>
                         <th>Valor da Parcela</th>
                         <th>Valor do Produto</th>
                     </tr>
